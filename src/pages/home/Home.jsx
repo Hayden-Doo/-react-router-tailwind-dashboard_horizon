@@ -1,30 +1,31 @@
-import Logo from '../../components/common/Logo';
-import { Heading, Button, Stack, HStack, VStack } from '@chakra-ui/react';
+import MiniSt from '../../components/card/MiniSt';
+import { Card, SimpleGrid } from '@chakra-ui/react';
+import miniStData from '../../data/miniStData';
+import ComplexTable from './components/ComplexTable';
+import LineChart from '../../components/charts/LineChart';
+import {
+  lineChartDataTotalSpent,
+  lineChartOptionsTotalSpent,
+} from '../../variables/charts';
 
 function Home() {
   return (
     <div>
-      <Heading as={'h3'} fontSize={30}>
-        홈 화면
-      </Heading>
+      <Card>
+        <LineChart
+          chartData={lineChartDataTotalSpent}
+          chartOptions={lineChartOptionsTotalSpent}
+        />
+      </Card>
+      {/* Complex Table */}
+      <ComplexTable />
+      {/* <SlideMain /> */}
+      <SimpleGrid columns={[1, null, 2, 3, 6]} spacing={10}>
+        {miniStData.map((data, index) => (
+          <MiniSt key={index} {...data} />
+        ))}
+      </SimpleGrid>
       {/* <Stack direction={['column', null, null, 'row']}> */}
-      <Stack direction={{ base: 'column', lg: 'row' }}>
-        <Button variant={'icon'} colorScheme="blue">
-          dddd
-        </Button>
-        <Button colorScheme="blue" border={'1px solid #000'} borderRadius={0}>
-          Button
-        </Button>
-        <Button colorScheme="blue" variant="outline">
-          Button
-        </Button>
-        <Button colorScheme="blue" variant="ghost">
-          Button
-        </Button>
-        <Button colorScheme="blue" variant="link">
-          Button
-        </Button>
-      </Stack>
     </div>
   );
 }
