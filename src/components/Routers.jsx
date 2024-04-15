@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, HashRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from '../pages/home/Home';
 import About from '../pages/about/About';
 import Login from '../pages/login/Login';
@@ -7,7 +7,7 @@ import Layout, { LayoutType2 } from './layout/Layout';
 function Routers() {
   return (
     // <BrowserRouter>
-    <BrowserRouter basename="-react-router-tailwind-dashboard_horizon">
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
