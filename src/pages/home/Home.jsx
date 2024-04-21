@@ -14,6 +14,9 @@ function Home() {
 
   useEffect(() => {
     document.body.style.backgroundColor = color;
+    return () => {
+      document.body.style.backgroundColor = 'white';
+    };
   }, [color]);
 
   const changeColor = () => {
