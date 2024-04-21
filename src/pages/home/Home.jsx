@@ -7,10 +7,22 @@ import {
   lineChartDataTotalSpent,
   lineChartOptionsTotalSpent,
 } from '../../variables/charts';
+import { useEffect, useState } from 'react';
 
 function Home() {
+  const [color, setColor] = useState('yellow');
+
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+  }, [color]);
+
+  const changeColor = () => {
+    setColor((prevColor) => (prevColor === 'yellow' ? 'red' : 'yellow'));
+  };
+
   return (
     <div>
+      <button onClick={changeColor}>색상 변경</button>
       <Card>
         <LineChart
           chartData={lineChartDataTotalSpent}
