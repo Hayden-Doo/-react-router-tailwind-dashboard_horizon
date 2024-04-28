@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^3.48.0",
     "chart.js": "^4.4.2",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.0.28",
     "gh-pages": "^6.1.1",
     "polished": "^4.3.1",
