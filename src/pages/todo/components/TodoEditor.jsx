@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { Box, Button, Flex, Heading, Input } from '@chakra-ui/react';
 import { useTodoDispatch, useTodoState } from '../../../contexts/TodoContext';
 import { useDispatch } from 'react-redux';
@@ -10,15 +10,30 @@ const TodoEditor = () => {
   const dispatch = useDispatch();
 
   // const inputRef = useRef();
-  const onChange = (e) => {
+  // const onChange = (e) => {
+  //   setTask(e.target.value);
+  // };
+  const onChange = useCallback((e) => {
     setTask(e.target.value);
-  };
-  const onSubmit = () => {
-    if (!task) {
-      alert('입력하세요!!!!');
-      return;
-    }
-    // dispatch(addTodo(task));
+  }, []);
+
+  // const onSubmit = () => {
+  //   if (!task) {
+  //     alert('입력하세요!!!!');
+  //     return;
+  //   }
+  //   dispatch(
+  //     addTodo({
+  //       id: Date.now(),
+  //       isDone: false,
+  //       task,
+  //       createdDate: new Date().getTime(),
+  //     })
+  //   );
+  //   setTask('');
+  // };
+  const onSubmit = useCallback(() => {
+    if (!task) return;
     dispatch(
       addTodo({
         id: Date.now(),
@@ -28,10 +43,16 @@ const TodoEditor = () => {
       })
     );
     setTask('');
-  };
-  const onKeyDown = (e) => {
-    if (e.key === 'Enter') onSubmit();
-  };
+  }, [task, dispatch]);
+  // const onKeyDown = (e) => {
+  //   if (e.key === 'Enter') onSubmit();
+  // };
+  const onKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') onSubmit();
+    },
+    [onSubmit]
+  );
 
   return (
     <Box py={5}>

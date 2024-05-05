@@ -9,25 +9,20 @@ const TodoList = () => {
   // const todo = useTodoState();
   // const dispatch = useTodoDispatch();
   const todo = useSelector((state) => state.todo.todos);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
   };
   const filteredTodo = useMemo(() => {
-    return todo.filter((item) =>
-      item.task.toLowerCase().includes(search.toLowerCase())
-    );
+    if (Array.isArray(todo)) {
+      return todo.filter((item) =>
+        item.task.toLowerCase().includes(search.toLowerCase())
+      );
+    } else {
+      return [];
+    }
   }, [search, todo]);
-  // const filteredTodo = () => {
-  //   if (Array.isArray(todo)) {
-  //     return todo.filter((item) =>
-  //       item.task.toLowerCase().includes(search.toLowerCase())
-  //     );
-  //   } else {
-  //     return [];
-  //   }
-  // };
 
   const lookBack = useMemo(() => {
     console.log('lookBack');
@@ -59,6 +54,9 @@ const TodoList = () => {
         ))}
       </ul>
       <div>
+        {/* {lookBack().total}개 중에 {lookBack().done}개 완료, {lookBack().left}개 남음 */}
+        <hr />
+        <h3>통계</h3>
         {lookBack.total}개 중에 {lookBack.done}개 완료, {lookBack.left}개 남음
       </div>
     </Box>
