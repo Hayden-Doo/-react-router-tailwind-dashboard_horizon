@@ -1,8 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Box, Button, Flex, Heading, Input } from '@chakra-ui/react';
+import { useTodoDispatch, useTodoState } from '../../../contexts/TodoContext';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../../../store/slices/todoSlice';
+// import { addTodo } from '../../../store/actions/todoAction';
 
-const TodoEditor = ({ addTodo }) => {
+const TodoEditor = () => {
   const [task, setTask] = useState('');
+  const dispatch = useDispatch();
+
   // const inputRef = useRef();
   const onChange = (e) => {
     setTask(e.target.value);
@@ -12,7 +18,15 @@ const TodoEditor = ({ addTodo }) => {
       alert('입력하세요!!!!');
       return;
     }
-    addTodo(task);
+    // dispatch(addTodo(task));
+    dispatch(
+      addTodo({
+        id: Date.now(),
+        isDone: false,
+        task,
+        createdDate: new Date().getTime(),
+      })
+    );
     setTask('');
   };
   const onKeyDown = (e) => {

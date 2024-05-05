@@ -1,17 +1,42 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TodoItem from './TodoItem';
 import { Box, Heading, Input } from '@chakra-ui/react';
+import { useTodoDispatch, useTodoState } from '../../../contexts/TodoContext';
+import { useDispatch, useSelector } from 'react-redux';
 
-const TodoList = ({ todo, onUpdate, onDelete }) => {
+const TodoList = () => {
   const [search, setSearch] = useState('');
+  // const todo = useTodoState();
+  // const dispatch = useTodoDispatch();
+  const todo = useSelector((state) => state.todo.todos);
+  const dispatch = useDispatch();
+
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
   };
-  const filteredTodo = () => {
+  const filteredTodo = useMemo(() => {
     return todo.filter((item) =>
       item.task.toLowerCase().includes(search.toLowerCase())
     );
-  };
+  }, [search, todo]);
+  // const filteredTodo = () => {
+  //   if (Array.isArray(todo)) {
+  //     return todo.filter((item) =>
+  //       item.task.toLowerCase().includes(search.toLowerCase())
+  //     );
+  //   } else {
+  //     return [];
+  //   }
+  // };
+
+  const lookBack = useMemo(() => {
+    console.log('lookBack');
+    const total = todo.length;
+    const done = todo.filter((item) => item.isDone).length;
+    const left = total - done;
+
+    return { total, done, left };
+  }, [todo]);
 
   return (
     <Box py={5}>
@@ -28,16 +53,14 @@ const TodoList = ({ todo, onUpdate, onDelete }) => {
       />
 
       <ul>
-        {/* <TodoItem todo={filteredTodo()} /> */}
-        {filteredTodo().map((item) => (
-          <TodoItem
-            key={item.id}
-            onUpdate={onUpdate}
-            onDelete={onDelete}
-            {...item}
-          />
+        {/* {filteredTodo().map((item) => ( */}
+        {filteredTodo.map((item) => (
+          <TodoItem key={item.id} {...item} />
         ))}
       </ul>
+      <div>
+        {lookBack.total}개 중에 {lookBack.done}개 완료, {lookBack.left}개 남음
+      </div>
     </Box>
   );
 };
